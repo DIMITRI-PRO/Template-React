@@ -1,15 +1,34 @@
-name: Coverage report
+name: Continous Intergation
+
 on:
+  push:
+    branches:
+      - development
   pull_request:
     branches:
-      - master
       - main
+      - master
       - development
+
 jobs:
-  coverage:
+  test:
+    name: Run tests
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          github-token: ${{ secrets.SECRET_TOKEN }}
+          node-version: 18
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm build
+
+      - name: Run tests
+        run: npm test
