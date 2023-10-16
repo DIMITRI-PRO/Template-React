@@ -1,4 +1,5 @@
 export default {
   testMatch: ["**/__tests__/**/*.test.(js|jsx|ts|tsx)"],
-  coverageReporters: ["lcov"],
+  collectCoverage: true,
+  coverageReporters: ["text", "cobertura"],
 };
