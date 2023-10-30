@@ -1,8 +1,7 @@
 export default {
   transform: {
     "^.+\\.js$": "babel-jest",
-    "^.+\\.jsx?$": "babel-jest",
-    "^.+\\.svg$": "jest-transform-stub"
+    "^.+\\.jsx?$": "babel-jest"
   },
   testMatch: ["**/__tests__/**/*.test.(js|jsx|ts|tsx)"],
   testPathIgnorePatterns: ["/node_modules/", "/src/assets/"],
