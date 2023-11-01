@@ -31,3 +31,7 @@ jobs:
 
       - name: Test quality code
         run: npm run lint
+
+      - name: Create Lint Status File
+        run: echo "success" > .github/workflows/lint_status.txt
+        if: success()
