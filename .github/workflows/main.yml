@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci
-          
+
       - name: Run tests
         run: npm run test:coverage
 
@@ -49,7 +49,7 @@ jobs:
   quality_code:
     name: Quality Code
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -61,7 +61,7 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci
-          
+
       - name: Test quality code
         run: npm run lint
 
