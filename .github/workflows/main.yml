@@ -25,8 +25,8 @@ jobs:
 
       - name: Set Git user information
         run: |
-          git config --global user.name "${{ secrets.GIT_USERNAME }}"
-          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git config --global user.name "CHOUMMANIVONGDimitri"
+          git config --global user.email "dimitrichoummanivong@gmail.com"
         shell: bash
 
       - name: Deploy to GitHub Pages
