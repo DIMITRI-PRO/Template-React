@@ -23,6 +23,7 @@ jobs:
 
       - name: Check CI and Lint Workflow Results
         run: |
+          ls
           if [ -f .github/workflows/ci_status.txt ] && [ "$(cat .github/workflows/ci_status.txt)" == "success" ]; then
             echo "CI Workflow succeeded."
           else
