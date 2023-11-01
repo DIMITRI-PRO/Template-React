@@ -15,6 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Check File tree
+      - name: Deploy to GitHub Pages
         run: |
-          ls -a
+          # Insérez ici les commandes pour le déploiement vers GitHub Pages
+          # Par exemple, vous pouvez utiliser les pages GitHub Actions de GitHub
