@@ -1,4 +1,4 @@
-name: Quality Code
+name: Continous Integration
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   test:
-    name: Quality Code
+    name: Run tests
     runs-on: ubuntu-latest
 
     steps:
@@ -27,16 +27,28 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Test quality code
-        run: npm run lint
+      - name: Build app
+        run: npm run build
 
-      - name: Create Lint Status File
+      - name: Run tests
+        run: npm run test:coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Create CI Status File
         if: success()
         run: |
-          echo "success" > lint_status.txt
+          echo "success" > ci_status.txt
         # Use l'action upload-artifact for create artefact
-      - name: Upload Lint Status Artifact
+
+      - name: Check status
+        run: |
+          ls -a
+      - name: Upload CI Status Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: lint_status
-          path: lint_status.txt
+          name: ci_status
+          path: ci_status.txt
