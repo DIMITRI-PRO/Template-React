@@ -1,29 +1,95 @@
-name: Main Workflow
+name: CI/CD
 
 on:
-  workflow_run:
-    workflows: ["Continous Integration", "Quality Code"]
-    types:
-      - completed
+  push:
+    branches:
+      - development
+  pull_request:
+    branches:
+      - main
+      - master
+      - development
 
 jobs:
-  deploy:
-    name: Deploy to GitHub Pages
+  test:
+    name: Run tests & coverage
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Deploy to GitHub Pages
+      - name: Run tests
+        run: npm run test:coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
         env:
-          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
-        run: npm run deploy
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Create CI Status File
+        if: success()
+        run: |
+          echo "success" > ci_status.txt
+
+      - name: Upload CI Status Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ci_status
+          path: ci_status.txt
+
+  quality_code:
+    name: Quality Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Test quality code
+        run: npm run lint
+
+      - name: Create Lint Status File
+        if: success()
+        run: |
+          echo "success" > lint_status.txt
+
+      - name: Upload Lint Status Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: lint_status
+          path: lint_status.txt
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    needs:
+      - test
+      - quality_code
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to GitHub Pages
+        run: |
+          ls -R
