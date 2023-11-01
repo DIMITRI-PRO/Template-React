@@ -23,8 +23,6 @@ jobs:
 
       - name: Run Tests and Code Coverage
         uses: ./.github/workflows/ci.yml
-        env:
-          WORKFLOW_STATUS: ${{ job.status }}
 
   quality_checks:
     name: Quality Checks
@@ -43,5 +41,3 @@ jobs:
 
       - name: Run linters and other code quality checks
         uses: ./.github/workflows/lint.yml
-        env:
-          WORKFLOW_STATUS: ${{ job.status }}
