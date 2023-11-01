@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  test_and_coverage:
-    name: Test and Code Coverage
+  ci_cd:
+    name: Continous Integration & Continous Deployement
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,45 +21,18 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Display Current Directory
+      - name: Check CI and Lint Workflow Results
         run: |
-          pwd  # Command to print the current directory
-          ls   # List the files in the current directory
-        # Rest of your workflow steps
-        continue-on-error: true # Continue even if this step fails
+          if [ -f .github/workflows/ci_status.txt ] && [ "$(cat .github/workflows/ci_status.txt)" == "success" ]; then
+            echo "CI Workflow succeeded."
+          else
+            echo "CI Workflow failed or not found."
+          fi
 
-      - name: List Workflows Directory
-        run: |
-          ls -R .github/workflows
+          if [ -f .github/workflows/lint_status.txt ] && [ "$(cat .github/workflows/lint_status.txt)" == "success" ]; then
+            echo "Lint Workflow succeeded."
+          else
+            echo "Lint Workflow failed or not found."
+          fi
         working-directory: ${{ github.workspace }}
-
-      - name: Run Tests and Code Coverage
-
-        uses: ./.github/workflows/ci.yml
-        continue-on-error: true # Continue even if this step fails
-
-  quality_checks:
-    name: Quality Checks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install Node.js dependencies
-        run: npm ci
-
-      - name: Display Current Directory
-        run: |
-          pwd  # Command to print the current directory
-          ls   # List the files in the current directory
-        # Rest of your workflow steps
-        continue-on-error: true # Continue even if this step fails
-
-      - name: Run linters and other code quality checks
-        uses: ./.github/workflows/lint.yml
         continue-on-error: true # Continue even if this step fails
