@@ -37,3 +37,7 @@ jobs:
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Create CI Status File
+        run: echo "success" > .github/workflows/ci_status.txt
+        if: success()
