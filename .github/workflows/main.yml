@@ -2,7 +2,7 @@ name: Main Workflow
 
 on:
   workflow_run:
-    workflows: ["Continous Integration", "Quality Code"]
+    workflows: ["ci.yml", "lint.yml"]
     types:
       - completed
 
@@ -10,6 +10,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout code
@@ -23,13 +24,13 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Set Git user information
-        run: |
-          git config --global user.name "CHOUMMANIVONGDimitri"
-          git config --global user.email "dimitrichoummanivong@gmail.com"
-        shell: bash
+      # - name: Set Git user information
+      #   run: |
+      #     git config --global user.name "${{ secrets.GIT_USERNAME }}"
+      #     git config --global user.email "${{ secrets.GIT_EMAIL }}"
+      #   shell: bash
 
-      - name: Deploy to GitHub Pages
-        env:
-          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
-        run: npm run deploy
+      # - name: Deploy to GitHub Pages
+      #   env:
+      #     SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
+      #   run: npm run deploy
