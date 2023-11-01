@@ -33,5 +33,12 @@ jobs:
         run: npm run lint
 
       - name: Create Lint Status File
-        run: echo "success" > .github/workflows/lint_status.txt
         if: success()
+        run: |
+          echo "success" > lint_status.txt
+        # Use l'action upload-artifact for create artefact
+      - name: Upload Lint Status Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint_status
+          path: lint_status.txt

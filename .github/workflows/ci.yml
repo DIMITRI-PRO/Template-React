@@ -1,4 +1,4 @@
-name: Continous Intergation
+name: Continous Integration
 
 on:
   push:
@@ -39,5 +39,12 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Create CI Status File
-        run: echo "success" > .github/workflows/ci_status.txt
         if: success()
+        run: |
+          echo "success" > ci_status.txt
+        # Use l'action upload-artifact for create artefact
+      - name: Upload CI Status Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ci_status
+          path: ci_status.txt
