@@ -34,6 +34,9 @@ jobs:
     needs: setup
 
     steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+        
       - name: Check Path & Files
         run: |
           ls -R
