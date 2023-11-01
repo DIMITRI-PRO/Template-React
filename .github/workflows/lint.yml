@@ -3,8 +3,6 @@ name: Quality Code
 on:
   push:
     branches:
-      - main
-      - master
       - development
   pull_request:
     branches:
@@ -38,7 +36,7 @@ jobs:
           echo "success" > lint_status.txt
         # Use l'action upload-artifact for create artefact
       - name: Upload Lint Status Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: lint_status
           path: lint_status.txt
