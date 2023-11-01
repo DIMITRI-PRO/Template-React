@@ -2,7 +2,7 @@ name: Main Workflow
 
 on:
   workflow_run:
-    workflows: ["ci.yml", "lint.yml"]
+    workflows: ["Continous Integration", "Quality Code"]
     types:
       - completed
 
