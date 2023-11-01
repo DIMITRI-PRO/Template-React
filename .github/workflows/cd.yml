@@ -1,0 +1,25 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_run:
+    workflows: ["Main Workflow"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to GitHub Pages
+        run: |
+          if [ "${{ env.WORKFLOW_STATUS }}" == "success" ]; then
+            echo "Les workflows précédents ont réussi. Le déploiement est confirmé (to do)."
+            
+          else
+            echo "Les workflows précédents n'ont pas réussi. Le déploiement est annulé."
+            exit 1
+          fi
