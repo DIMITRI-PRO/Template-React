@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download Lint Status Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: lint_status # Le même nom que vous avez donné lors de l'upload dans le workflow "Quality Code"
           path: .
