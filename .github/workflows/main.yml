@@ -16,6 +16,4 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy to GitHub Pages
-        run: |
-          # Insérez ici les commandes pour le déploiement vers GitHub Pages
-          # Par exemple, vous pouvez utiliser les pages GitHub Actions de GitHub
+        run: npm run deploy
